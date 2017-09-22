@@ -2,23 +2,19 @@
  * author: Jiabin.Li
  */
 
-#include<iostream>
-#include<array>
+#include <iostream>
+#include <array>
+#include <cstddef>
 
 using namespace std;
 
 int main() {
 	int number = 123;
 	
-	unsigned bit = 1;
-	int temp = number;
-	while (temp / 10 > 0) {
-		bit++;
-		temp /= 10;
-	}
+        constexpr unsigned bit = sizeof(number) / sizeof(int);
 
 	char A[bit];
-	for (unsigned i = bit; i >= 0; i--) {
+	for (unsigned i = bit - 1; i >= 0; i--) {
 		A[i] = number % 10 + '0';
 		number /= 10;
 	}
@@ -26,7 +22,7 @@ int main() {
 	for (unsigned j = 0; j < bit; j++) {
 		cout << A[j];
 	}
-	cout << endl << bit << endl;
+	cout << endl;
 
 	return 0;
 }
