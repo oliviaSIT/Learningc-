@@ -13,12 +13,17 @@ public:
 	gameLife() {
 		generation = 0;
 		frequency = 0;
-		L[]
+		L[10][10] = {};
 	}
 
-	void read(string s){
-		Generation = g;
-		frequency = f;
+	void read(string s) {
+		ifstream fs(s);
+		fs >> generation >> frequency;
+	
+		for(int i = 0; i <= 9; i++) {
+			fs >> L[i][0] >> L[i][1] >> L[i][2] >> L[i][3] >> L[i][4] >> L[i][4] >> L[i][5] >> L[i][6] >> L[i][7] >> L[i][8] >> L[i][9] >> endl;
+                }		
+		fs.close();
 	}
 
 	void print() {
