@@ -1,3 +1,5 @@
+// author: Jiabin.Li
+
 #include <iostream>
 #include <array>
 #include <fstream>
@@ -99,24 +101,16 @@ public:
                     			L[i][j] = 0;
             		}
         	}
-	}
-
-//	void updateNeighbor(size_t i, size_t j, int (&neighbour)[ARRAY_SIZE + 2][ARRAY_SIZE + 2]) {
-//	        for (size_t h = i - 1; h <= i + 1; h++) {
-//			for (size_t w = j - 1; w <= j + 1; w++) {
-//                		if (h == i && w == j)
-//                       		continue;
-//                		if (L[i][j] == 1)
-//                    		++neighbour[h][w];
-//			}
-//                }
-//        }
-    
+	}  
 
 	void printLife() const {
 		for (size_t i = 1; i <= ARRAY_SIZE; i++) {
             		for (size_t j = 1; j <= ARRAY_SIZE; j++) {
-                		cout << L[i][j] << " ";
+                		if (L[i][j] == 1) {
+					cout << "*";
+				} else {
+					cout << " ";
+				}
             		}
             		cout << endl;
         	}
