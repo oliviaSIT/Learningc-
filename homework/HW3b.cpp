@@ -70,25 +70,24 @@ public:
 	}
 
 	void updateNeighbour(size_t i, size_t j, int (&neighbour)[ARRAY_SIZE + 2][ARRAY_SIZE + 2]) {
-                int temp;
+                int temp = 0;
 		for (size_t h = i - 1; h <= i + 1; h++) {
                         for (size_t w = j - 1; w <= j + 1; w++) {
                                 if (h == i && w == j)
                                         continue;
-                              
-                  		temp = neighbour[h][w] + 1;
-				neighbour[h][w] = temp;
+                                
+				if (L[h][w] == 1)
+                  			temp++;
                         }
                 }
+		neighbour[i][j] = temp;
         }
 
 	void update() {
 		int neighbour[ARRAY_SIZE + 2][ARRAY_SIZE + 2] = {};
 		for (size_t i = 1; i <= ARRAY_SIZE; i++) {
                 	for (size_t j = 1; j <= ARRAY_SIZE; j++) {
-				if (L[i][j] == 1) {
-                			updateNeighbour(i, j, neighbour);
-				}
+	            		updateNeighbour(i, j, neighbour);	
 			}
 		}
 
