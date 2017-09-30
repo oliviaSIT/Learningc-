@@ -1,4 +1,25 @@
 // author: Jiabin.Li
+/*
+ professor:
+ my file "hw3b.dat" is :
+ generation frequency
+ **********
+ **********
+ **********
+ **********
+ **********
+ **********
+ **********
+ **********
+ **********
+ **********
+
+the size of the grid is 10*10, the size of the array in my code is 12*12
+
+thanks for reading
+ 
+*/
+
 
 #include <iostream>
 #include <array>
@@ -40,7 +61,7 @@ private:
             		}
         	}
 		
-		// add the edge
+		// add the edge so that the array become 12 * 12
 		for (size_t j = 0; j <= ARRAY_SIZE + 1; j++) {
 			L[0][j] = 0;
 			L[j][0] = 0;
@@ -69,7 +90,7 @@ public:
 
 	}
 
-	void updateNeighbour(size_t i, size_t j, int (&neighbour)[ARRAY_SIZE + 2][ARRAY_SIZE + 2]) {
+	void updateNeighbour(size_t i, size_t j, int neighbour[ARRAY_SIZE + 2][ARRAY_SIZE + 2]) {
                 int temp = 0;
 		for (size_t h = i - 1; h <= i + 1; h++) {
                         for (size_t w = j - 1; w <= j + 1; w++) {
@@ -116,7 +137,7 @@ public:
 };
 
 int main() {
-	GameLife sol("test.dat");
+	GameLife sol("hw3b.dat");
         sol.startPrint();
 	return 0;
 }
