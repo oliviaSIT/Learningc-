@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 class Complex {
@@ -20,7 +20,7 @@ public:
 	
 	friend Complex operator +(const Complex& c1, const Complex& c2);
 
-	friend Complex& operator <<(const ostream& s, const Complex& c);
+	friend ostream& operator <<(ostream& s, const Complex& c);
 };
 
 Complex operator +(const Complex& c1, const Complex& c2){
@@ -30,8 +30,9 @@ Complex operator +(const Complex& c1, const Complex& c2){
 	return result;
 }
 
-Complex& operator <<(const ostream& s, const Complex& c) {
-	s << c.real << "+ i" << c.imag << '\0';
+ostream& operator <<(ostream& s, const Complex& c) {
+	s << c.real  << "+i" << c.imag << " ";
+	return s;
 }
 
 int main() {
