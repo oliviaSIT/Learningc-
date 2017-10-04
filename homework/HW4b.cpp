@@ -10,6 +10,12 @@ private:
 	double* m;
 	uint32_t rows, cols;
 public:
+	Matrix() {
+		m = new double[]
+		rows = 0;
+		cols = 0;
+	}
+
 	Matrix(uint32_t rows, uint32_t cols, double val = 0) {
 		m = new double[rows * cols];
 		for (uint32_t i = 0; i < rows * cols; ++i)
