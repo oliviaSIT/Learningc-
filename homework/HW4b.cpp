@@ -1,3 +1,5 @@
+//author: Jiabin.Li
+
 #include <iostream>
 #include <cstdint>
 
@@ -14,9 +16,6 @@ public:
 			m[i] = val;
 	}
 
-	~Matrix() {
-	    delete [] m;
-	}
 
 // copy constructor
 	Matrix(const Matrix& orig) : m(new double[orig.rows * orig.cols]),			       
@@ -29,59 +28,75 @@ public:
 // =
 	Matrix& operator = (const Matrix& orig) {
 		Matrix copy(orig);
-		copy.m = orig.m;
-		copy.rows = orig.rows;
-		copy.cols = orig.cols;
+		swap(copy.m,m);
+		rows = orig.rows;
+		cols = orig.cols;
+	
+		return this; 
 	}
 
-	double operator ()const (uint32_t r, uint32_t c) {
- 		return m[r*cols + c];
-	}
+        ~Matrix() {
+            delete [] m;
+
+        //return m[r][c]
 	double& operator ()(uint32_t r, uint32_t c) {
 		return m[r*cols + c];
 	}
-	/*
- +		operator +...
- +
- +		for (int i = 0; i < rows; i++)
- +		for (int j = ; j < cols; j++)
- +      ans(i,j) = a(i,j) + b(i,j)
- +
- +			writing with a single loop is faster
- +	 */	
+
+	
+	friend Matrix operator +(const Matrix& a, const Matrix& b);  
+	friend Matrix operator -(const Matrix& a, const Matrix& b); 
+	friend Matrix operator *(const Matrix& a, const Matrix& b);
+	friend ostream& operator <<(ostream& s, const Matrix& a); 
 };
 
+	Matrix operator +(const Matrix& a, const Matrix& b) {
+                Matrix result(a.rows, a.cols);
+               	for (uint32_t i = 0; i < a.rows * a.cols; i++)
+                      result.m[i] = a.m[i] + b.m[i];
+
+               	return result;
+        }
+
+	Matrix operator -(const Matrix& a, const Matrix& b) {
+                Matrix result(a.rows, a.cols);
+                for (uint32_t i = 0; i < a.rows * a.cols; i++)
+                      result.m[i] = a.m[i] - b.m[i];
+
+                return result;
+        }
+
+	ostream& operator <<(ostream& s, const Matrix& a) {
+                for (uint32_t i = 0; i < a.rows; i++) {
+                        for (uint32_t j = 0; j< a.cols; j++) {
+                                s << a.m[i * rows + j];
+                        }
+                s << '\n';
+                }
+                return s;
+        }
+
+
+
 int main() {
-	Matrix a(3,4, 5.2); // create 3 rows of 4 columns containing 5.2
-	Matrix b(3,4); // defaults to 0.0
-	cout << a << '\n';
-	/*
- +		5.2 5.2 5.2 5.2
- +		5.2 5.2 5.2 5.2
- +		5.2 5.2 5.2 5.2
- +
- +	 */
+	Matrix a(3,4, 5.2); 
+	Matrix b(3,4); 
+	cout << a << endl;
 
 	Matrix c(3,4,1.2);
 
-	cout << c(2,2);
+	cout << c(2,2) << endl;
 	c(0,0) = -1.5;
-	/*
- +c=
- +		-1.5 1.2 1.2 1.2
- +		 1.2 1.2 1.2 1.2
- +		 1.2 1.2 1.2 1.2
- +
- +	 */
+	cout << c << endl
+
 	Matrix d = a + c;
-	/*
- +		3.7 6.4 6.4 6.4
- +		6.4 6.4 6.4 6.4
-+		6.4 6.4 6.4 6.4
- +	 */
-	cout << d;
+	cout << d << endl;
+
 	Matrix e = a - c;
+	cout << e << endl;
 
 	//optional
 	Matrix f(4,3,1.5);
 	Matrix g = f * b; // matrix multiplication
+	cout << g << endl;
+}
