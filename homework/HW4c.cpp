@@ -43,16 +43,16 @@ public:
 
                 return *this;
         }
-
+/*
 	uint32_t operator()(uint32_t c, uint32_t r) {
-                return rgba[ r * cols + c];
+                return rgba[r * cols + c];
         }
 	
 
 	uint32_t& operator()(uint32_t c, uint32_t r) {
-                return rgba[ r * cols + c];
+                return rgba[r * cols + c];
         }
-
+*/
 	
         ~Bitmap() {
             delete [] rgba;
@@ -67,7 +67,7 @@ public:
 
 	Bitmap& vertLine(uint32_t r1, uint32_t r2, uint32_t c, uint32_t x) {
                 for (uint32_t i = r1; i <= r2; i++) {
-                        rgba[ i * cols + c] = x;
+                        rgba[i * cols + c] = x;
                 }
                 return *this;
         }
@@ -76,13 +76,14 @@ public:
 
 };
 
-friend ostream& operator<<(ostream& s, const Bitmap& a) {
+ostream& operator<<(ostream& s, const Bitmap& a) {
 	for (uint32_t i = 0; i < a.rows; i++) {
                 for (uint32_t j = 0; j< a.cols; j++) {
-                                s << setw(4) << a.rgba[ i * a.cols + j];
+                                s << setw(4) << a.rgba[i * a.cols + j];
                 }
-		s << endl;
+		s << endl;		
 	}
+	return s;
 }
 
 int main() {
@@ -90,7 +91,6 @@ int main() {
 	cout << b1;
 	Bitmap b2(10,20);
 	b2.horizLine(3, 15, 0, 0xFF00FF); // go from (3,0) to (15,0) writing color
-
-	
 	b2.vertLine(0, 8, 0, 0x000100);// go from (0,0) to (0,8) writing color
+	cout << b2;
 }	
