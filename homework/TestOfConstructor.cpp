@@ -4,7 +4,7 @@ using namespace std;
 
 class MyClass {
 public:
-	MyClass(int x = 0): x(x) {}
+	explicit MyClass(int x = 0): x(x) {}
 
 	int get() {
 		return x;
@@ -27,5 +27,9 @@ int main() {
 	MyClass c4(4);
 	c3 = c4;
 	cout << c3.get() << endl;
+	
+//	int x = 5;
+//	MyClass c5 = x;
+//	cout << c5.get() << endl;
 	return 0;
 }
