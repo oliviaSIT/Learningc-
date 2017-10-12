@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <utility>
 
+class BadSize {
+
+};
+
 using namespace std;
 
 class Matrix {
@@ -45,7 +49,7 @@ public:
 	}
 	
 	double& operator ()(uint32_t r, uint32_t c) {
-		return m[r*cols + c];
+		return m[r * cols + c];
 	}
 
         ~Matrix() {
@@ -62,7 +66,7 @@ public:
 ostream& operator <<(ostream& s, const Matrix& a) {
                 for (uint32_t i = 0; i < a.rows; i++) {
                         for (uint32_t j = 0; j< a.cols; j++) {
-                                s << a.m[i * a.rows + j] << ' ';
+                                s << a.m[i * a.cols + j] << ' ';
                         }
                 s << '\n';
                 }
@@ -70,6 +74,9 @@ ostream& operator <<(ostream& s, const Matrix& a) {
         }
 
 Matrix operator +(const Matrix& a, const Matrix& b) {
+		if (a.rows != b.rows || a.cols != b.cols)
+			throw BadSize();
+
                 Matrix result(a.rows, a.cols);
                	for (uint32_t i = 0; i < a.rows * a.cols; i++)
                       result.m[i] = a.m[i] + b.m[i];
@@ -78,6 +85,9 @@ Matrix operator +(const Matrix& a, const Matrix& b) {
         }
 
 Matrix operator -(const Matrix& a, const Matrix& b) {
+		if (a.rows != b.rows || a.cols != b.cols)
+                        throw BadSize();
+
                 Matrix result(a.rows, a.cols);
                 for (uint32_t i = 0; i < a.rows * a.cols; i++)
                       result.m[i] = a.m[i] - b.m[i];
@@ -86,11 +96,14 @@ Matrix operator -(const Matrix& a, const Matrix& b) {
         }
 
 Matrix operator *(const Matrix& a, const Matrix& b) {
+		if (a.cols != b.rows)
+                        throw BadSize();
+
                 Matrix result(a.rows, b.cols);
                 for (uint32_t i = 0; i < a.rows; i++) {
 			for (uint32_t j = 0; j < b.cols; j++) {
 				for(uint32_t l = 0; l < a.cols; l++) {
-                 			result.m[i * a.rows + j] += a.m[i * a.rows + l] * b.m[l * b.rows + j];
+                 			result.m[i * a.cols + j] += a.m[i * a.cols + l] * b.m[l * b.cols + j];
 				}       
 			}
 		}
@@ -100,28 +113,26 @@ Matrix operator *(const Matrix& a, const Matrix& b) {
 
 
 int main() {
-	Matrix a(3,4, 5.2); 
-	Matrix b(3,4,1); 
-	cout << a << endl;
+	Matrix m1(3,4); 
+	m1(1,2) = 1.5;
+	m1(2,2) = -1.0; 
+	cout << m1 << endl;
 
-	Matrix c(3,4,1.2);
+	Matrix m2(3,4,3.0);
 
-	cout << c(2,2) << endl;
-	c(0,0) = -1.5;
-	cout << c << endl;
-
-	Matrix d; 
-	d = a + c;
-	cout << d << endl;
-
-	Matrix e; 
-	e = a - c;
-	cout << e << endl;
+	try {
+		cout << m2(1,1) << endl;
+		Matrix m3 = m1 + m2;
+		Matrix m4(2,2);
+		Matrix m5 = m1 + m4; // not the same size!!!!!!
+	} catch(const BadSize& e) {
+		cout << "Matrices of two different size" << endl;
+	}
 
 //optional
-	Matrix f(4,3,1.5);
-	Matrix g = f * b; // matrix multiplication
-	cout << g << endl;
+	Matrix m(4,3,1.5);
+	Matrix ans = m * m1; // matrix multiplication
+	cout << ans << endl;
 
 	return 0;
 }

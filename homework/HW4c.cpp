@@ -88,10 +88,16 @@ ostream& operator<<(ostream& s, const Bitmap& a) {
 				g[k] = rgb[k + 8];
 				r[k] = rgb[k + 16];
 			}
-			s << setw(10) << b.to_ulong() << "," << g.to_ulong() << "," << r.to_ulong() << " ";
-                }
-		s << endl;		
+			if ((j + 1) % a.cols != 0) {
+				s << b.to_ulong() << "," << g.to_ulong() << "," <<r.to_ulong() << setw(4);
+			//	s << setw(4) << b.to_ulong() << "," << setw(4) << g.to_ulong() << "," << setw(4) << r.to_ulong();
+			} else {
+				s << b.to_ulong() << "," << g.to_ulong() << "," <<r.to_ulong() << '\n' ;  
+			//	s << setw(4) << b.to_ulong() << "," << setw(4) << g.to_ulong() << "," << setw(4) << r.to_ulong() << '\n';
+			}
+                }		
 	}
+	cout << endl;
 	return s;
 }
 

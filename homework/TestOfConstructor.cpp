@@ -36,8 +36,8 @@ int main() {
 	c3 = c4;
 	cout << c3.get() << endl;
 */	
-	int x = 5;
-	MyClass c5 = x;
+//	int x = 5;
+	MyClass c5 = 5;
 	cout << c5.get() << endl;
 	return 0;
 }
