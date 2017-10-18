@@ -51,7 +51,7 @@ public:
 
 //	friend Vec3d operator+(Vec3d &v1, Vec3d &v2);
 	friend Vec3d operator-(const Vec3d &v1, const Vec3d &v2);
-	friend Vec3d operator*(const Vec3d &v1, double &scale);
+	friend Vec3d operator*(const Vec3d &v1, const double &scale);
 	friend Vec3d operator*(const double &scale, const Vec3d &v1);
 	friend double dot(const Vec3d &v1, const Vec3d &v2);
 	friend double dist(const Vec3d &v1, const Vec3d &v2);
