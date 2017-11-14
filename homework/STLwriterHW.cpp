@@ -2,20 +2,20 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
+const double PI = 3.1415926;
+
 class Shape {
-private:
+protected:
     double x, y, z;
 public:
     Shape(double x = 0, double y = 0, double z = 0):x(x), y(y), z(z) {}
 
-    virtual string toString () const = 0 ;  
-    
-    virtual ~Shape() {
-        cout << "destroy Shape" << endl;
-    }
+    virtual void toSTL(ofstream& os) const = 0 ;  
+    virtual ~Shape() {}
 };
 
 class Cylinder: public Shape {
@@ -26,14 +26,56 @@ public:
     Cylinder(double x, double y, double z, double r, double h, int facets):
         Shape(x, y, z), r(r), h(h), facets(facets) {}
     
-    virtual string toString() const {
-        string result = "hello Cylinder";
-        return result;
+    void toSTL(ofstream& os) const {
+	double x1, x2, y1, y2, x3, y3, z3;
+	double z1 = z + h, z2 = z;
+        for (int i = 0; i < facets; i++) {
+		x1 = x + r * cos(2 * PI / facets * i); 
+		x2 = x + r * cos(2 * PI / facets * (i + 1));
+		y1 = y + r * sin(2 * PI / facets * i);
+		y2 = y + r * sin(2 * PI / facets * (i + 1));
+				
+		//calculate facet normal
+		x3 = h * (y2 - y1);//((p2.y-p1.y)*(p3.z-p1.z)-(p2.z-p1.z)*(p3.y-p1.y)) 		
+		y3 = h * (x1 - x2);//((p2.z-p1.z)*(p3.x-p1.x)-(p2.x-p1.x)*(p3.z-p1.z))
+		z3 = 0.0;//((p2.x-p1.x)*(p3.y-p1.y)-(p2.y-p1.y)*(p3.x-p1.x))
+
+		//write stl
+		os << "facet normal" << " " << x3 << " " << y3 << " " << z3 << endl;
+		os << "outer loop" << endl;
+		os << "vertex" << " " << x1 << " " << y1 << " " << z1 << endl;
+		os << "vertex" << " " << x1 << " " << y1 << " " << z2 << endl;
+		os << "vertex" << " " << x2 << " " << y2 << " " << z1 << endl;
+		os << "endloop" << endl;
+		os << "endfacet" << '\n' << endl;
+
+		os << "facet normal" << x3 << " " << y3 << " " << z3 << endl;
+		os << "outer loop" << endl;
+		os << "vertex" << " " << x1 << " " << y1 << " " << z2 << endl;
+		os << "vertex" << " " << x2 << " " << y2 << " " << z1 << endl;
+		os << "vertex" << " " << x2 << " " << y2 << " " << z2 << endl;
+		os << "endloop" << endl;
+		os << "endfacet" << '\n' << endl;
+
+		os << "facet normal" << 0 << " " << 0 << " " << 1 << endl;
+		os << "outer loop" << endl;
+		os << "vertex" << " " << x << " " << y << " " << z1 << endl;
+		os << "vertex" << " " << x1 << " " << y1 << " " << z1 << endl;
+		os << "vertex" << " " << x2 << " " << y2 << " " << z1 << endl;
+		os << "endloop" << endl;
+		os << "endfacet" << '\n' << endl;
+
+		os << "facet normal" << 0 << " " << 0 << " " << -1 << endl;
+		os << "outer loop" << endl;
+		os << "vertex" << " " << x << " " << y << " " << z2 << endl;
+		os << "vertex" << " " << x1 << " " << y1 << " " << z2 << endl;
+		os << "vertex" << " " << x2 << " " << y2 << " " << z2 << endl;
+		os << "endloop" << endl;
+		os << "endfacet" << '\n' << endl;
+		}
     }
 
-    ~Cylinder() {
-        cout << "destroy Cylinder" << endl;
-    }
+    ~Cylinder() {}
 };
 
 class Cube: public Shape {
@@ -43,15 +85,108 @@ public:
     Cube(double x, double y, double z, double size):
         Shape(x, y, z), size(size) {}
 
-        virtual string toString() const{
-            return to_string(size);
-        }
+    void toSTL(ofstream& os) const {
+        os << "facet normal" << " 0 0 -1" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
 
-    ~Cube() {cout << "destroy Cube" << endl;}
+	os << "facet normal" << " 0 0 -1" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+	
+	os << "facet normal" << " 0 -1 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " 0 -1 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x << " " << y << " " << z + size<< endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " -1 0 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " -1 0 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x << " " << y << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " 1 0 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+	
+	os << "facet normal" << " 1 0 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " 0 0 1" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z + size << endl;
+        os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+        os << "facet normal" << " 0 0 1" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y << " " << z + size << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z + size << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+	os << "facet normal" << " 0 1 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+        os << "endfacet" << '\n' << endl;
+
+        os << "facet normal" << " 0 1 0" << endl;
+        os << "outer loop" << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z + size<< endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
+        os << "endloop" << endl;
+	
+    }
+
+    ~Cube() {}
 };
 
 class CAD {
-//private:
 public:
     vector<Shape*> shapes;
 public:
@@ -60,23 +195,21 @@ public:
     void add(Shape* s) {
         shapes.push_back(s);
     }
-	void write(const string& path) {
-        	ofstream stlFile;
-        	stlFile.open(path);
-        	for(size_t i = 0; i < shapes.size(); i++) {
-            		stlFile << shapes[i]->toString() << '\n';
-		}
-        	stlFile.close();
-    	}
-       
 
-/*
-    void write(const string& s) {
-        for(size_t i = 0; i < shapes.size(); i++) {
-            
-        }   
-    }
-*/  
+    void write(const string& path) {
+        	ofstream os;
+        	os.open(path, ofstream::app);
+		os << "solid shape" << endl;
+
+        	for(size_t i = 0; i < shapes.size(); i++) {
+            		shapes[i]->toSTL(os);
+		}
+		
+		os << '\n';
+		os << "endsolid shape" << endl;
+        	os.close();
+    	}   
+
     ~CAD() {
         for(size_t i = 0; i < shapes.size(); i++) {
             delete shapes[i];
@@ -84,25 +217,19 @@ public:
     }
 };
 
-ostream& operator<<(ostream& os, const Shape& shape) {
-    os << shape.toString();
-    return os;
-}
-
 //https://www.stratasysdirect.com/resources/how-to-prepare-stl-files/
 //https://www.viewstl.com/
+
 int main() {
     CAD c;
     c.add(new Cube(0,0,0,5));
     c.add(new Cylinder(100, 0, 0, 3, 10, 10));
-    for(size_t i = 0; i < c.shapes.size(); i++) {
-        cout << *(c.shapes[i]);
-    }
-    cout << endl;
     c.write("test.stl");
 
     return 0;
 }
+
+
 /*
 struct TestCase {
     bool pass;

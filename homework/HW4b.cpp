@@ -5,7 +5,7 @@
 #include <utility>
 
 class BadSize {
-
+	
 };
 
 using namespace std;
@@ -15,13 +15,7 @@ private:
 	double* m;
 	uint32_t rows, cols;
 public:
-	Matrix() {
-		m = new double[1];
-		rows = 1;
-		cols = 1;
-	}
-
-	Matrix(uint32_t r, uint32_t c, double val = 0) {
+	Matrix(uint32_t r = 0, uint32_t c = 0, double val = 0) {
 		m = new double[r * c];
 		for (uint32_t i = 0; i < r * c; ++i)
 			m[i] = val;
@@ -31,7 +25,7 @@ public:
 	}
 
 // copy constructor
-	Matrix(const Matrix& orig) : m(new double[orig.rows * orig.cols]),			       
+	Matrix(const Matrix &orig) : m(new double[orig.rows * orig.cols]),			       
 			             rows(orig.rows),
                                      cols(orig.cols) {
 					for (uint32_t i = 0; i < rows * cols; ++i)
@@ -39,7 +33,7 @@ public:
 				}	
 
 
-	Matrix& operator = (const Matrix& orig) {
+	Matrix& operator=(const Matrix &orig) {
 		Matrix copy(orig);
 		swap(copy.m,m);
 		rows = copy.rows;
@@ -48,8 +42,8 @@ public:
 		return *this; 
 	}
 	
-	double& operator ()(uint32_t r, uint32_t c) {
-		return m[r * cols + c];
+	double& operator()(uint32_t r, uint32_t c) {
+		return m[(r - 1) * cols + c - 1];
 	}
 
         ~Matrix() {
@@ -57,13 +51,13 @@ public:
 
         }
 
-	friend ostream& operator <<(ostream& s, const Matrix& a); 
-	friend Matrix operator +(const Matrix& a, const Matrix& b); 
-	friend Matrix operator -(const Matrix& a, const Matrix& b);
-	friend Matrix operator *(const Matrix& a, const Matrix& b);
+	friend ostream& operator<<(ostream& s, const Matrix& a); 
+	friend Matrix operator+(const Matrix &a, const Matrix &b); 
+	friend Matrix operator-(const Matrix &a, const Matrix &b);
+	friend Matrix operator*(Matrix &a, Matrix &b);
 };
 
-ostream& operator <<(ostream& s, const Matrix& a) {
+ostream& operator<<(ostream &s, const Matrix &a) {
                 for (uint32_t i = 0; i < a.rows; i++) {
                         for (uint32_t j = 0; j< a.cols; j++) {
                                 s << a.m[i * a.cols + j] << ' ';
@@ -73,7 +67,7 @@ ostream& operator <<(ostream& s, const Matrix& a) {
                 return s;
         }
 
-Matrix operator +(const Matrix& a, const Matrix& b) {
+Matrix operator+(const Matrix &a, const Matrix &b) {
 		if (a.rows != b.rows || a.cols != b.cols)
 			throw BadSize();
 
@@ -84,7 +78,7 @@ Matrix operator +(const Matrix& a, const Matrix& b) {
                	return result;
         }
 
-Matrix operator -(const Matrix& a, const Matrix& b) {
+Matrix operator-(const Matrix &a, const Matrix &b) {
 		if (a.rows != b.rows || a.cols != b.cols)
                         throw BadSize();
 
@@ -95,7 +89,7 @@ Matrix operator -(const Matrix& a, const Matrix& b) {
                 return result;
         }
 
-Matrix operator *(const Matrix& a, const Matrix& b) {
+Matrix operator*(Matrix &a, Matrix &b) {
 		if (a.cols != b.rows)
                         throw BadSize();
 
@@ -113,26 +107,26 @@ Matrix operator *(const Matrix& a, const Matrix& b) {
 
 
 int main() {
-	Matrix m1(3,4); 
-	m1(1,2) = 1.5;
-	m1(2,2) = -1.0; 
-	cout << m1 << endl;
-
-	Matrix m2(3,4,3.0);
-
-	try {
-		cout << m2(1,1) << endl;
-		Matrix m3 = m1 + m2;
-		Matrix m4(2,2);
-		Matrix m5 = m1 + m4; // not the same size!!!!!!
-	} catch(const BadSize& e) {
-		cout << "Matrices of two different size" << endl;
-	}
 
 //optional
-	Matrix m(4,3,1.5);
-	Matrix ans = m * m1; // matrix multiplication
-	cout << ans << endl;
+	Matrix m1(3,3,1);
+	m1(2,2) = 2;
+	m1(3,1) = 3;
+/*	for (uint32_t i = 0; i < 3; i++ ) {
+		for (uint32_t j = 0; j < 3; j++) {
+			m1(i,j) = i + j;
+		}
+	}
+*/	
+	cout << m1 << endl;
+	Matrix m2 (3,3);
+	m2(1,1) = 1;
+	m2(2,2) = 1;
+	m2(3,3) = 1;
+	cout << m2 << endl;
+	Matrix m3;
+	m3 = m1 * m2; // matrix multiplication
+	cout << m3 << endl;
 
 	return 0;
 }
