@@ -49,7 +49,7 @@ public:
 		os << "endloop" << endl;
 		os << "endfacet" << '\n' << endl;
 
-		os << "facet normal" << x3 << " " << y3 << " " << z3 << endl;
+		os << "facet normal" << " " << x3 << " " << y3 << " " << z3 << endl;
 		os << "outer loop" << endl;
 		os << "vertex" << " " << x1 << " " << y1 << " " << z2 << endl;
 		os << "vertex" << " " << x2 << " " << y2 << " " << z1 << endl;
@@ -57,7 +57,7 @@ public:
 		os << "endloop" << endl;
 		os << "endfacet" << '\n' << endl;
 
-		os << "facet normal" << 0 << " " << 0 << " " << 1 << endl;
+		os << "facet normal" << " " << 0 << " " << 0 << " " << 1 << endl;
 		os << "outer loop" << endl;
 		os << "vertex" << " " << x << " " << y << " " << z1 << endl;
 		os << "vertex" << " " << x1 << " " << y1 << " " << z1 << endl;
@@ -65,7 +65,7 @@ public:
 		os << "endloop" << endl;
 		os << "endfacet" << '\n' << endl;
 
-		os << "facet normal" << 0 << " " << 0 << " " << -1 << endl;
+		os << "facet normal" << " " <<0 << " " << 0 << " " << -1 << endl;
 		os << "outer loop" << endl;
 		os << "vertex" << " " << x << " " << y << " " << z2 << endl;
 		os << "vertex" << " " << x1 << " " << y1 << " " << z2 << endl;
@@ -86,7 +86,7 @@ public:
         Shape(x, y, z), size(size) {}
 
     void toSTL(ofstream& os) const {
-        os << "facet normal" << " 0 0 -1" << endl;
+        os << "facet normal" << " " << "0 0 -1" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z << endl;
@@ -94,7 +94,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " 0 0 -1" << endl;
+	os << "facet normal" << " " << "0 0 -1" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z << endl;
@@ -102,7 +102,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 	
-	os << "facet normal" << " 0 -1 0" << endl;
+	os << "facet normal" << " " << "0 -1 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z << endl;
@@ -110,7 +110,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " 0 -1 0" << endl;
+	os << "facet normal" << " " << "0 -1 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
         os << "vertex" << " " << x << " " << y << " " << z + size<< endl;
@@ -118,7 +118,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " -1 0 0" << endl;
+	os << "facet normal" << " " << "-1 0 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z << endl;
@@ -126,15 +126,15 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " -1 0 0" << endl;
+	os << "facet normal" << " " << "-1 0 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z << endl;
-        os << "vertex" << " " << x << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x << " " << y + size << " " << z + size << endl;
         os << "vertex" << " " << x << " " << y << " " << z + size << endl;
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " 1 0 0" << endl;
+	os << "facet normal" << " " << "1 0 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z << endl;
         os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
@@ -142,15 +142,15 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 	
-	os << "facet normal" << " 1 0 0" << endl;
+	os << "facet normal" << " " << "1 0 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z << endl;
-        os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
+        os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " 0 0 1" << endl;
+	os << "facet normal" << " " << "0 0 1" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z + size << endl;
         os << "vertex" << " " << x + size << " " << y << " " << z + size << endl;
@@ -158,7 +158,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-        os << "facet normal" << " 0 0 1" << endl;
+        os << "facet normal" << " " << "0 0 1" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y << " " << z + size << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z + size << endl;
@@ -166,7 +166,7 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-	os << "facet normal" << " 0 1 0" << endl;
+	os << "facet normal" << " " << "0 1 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z << endl;
         os << "vertex" << " " << x + size << " " << y + size << " " << z << endl;
@@ -174,13 +174,13 @@ public:
         os << "endloop" << endl;
         os << "endfacet" << '\n' << endl;
 
-        os << "facet normal" << " 0 1 0" << endl;
+        os << "facet normal" << " " << "0 1 0" << endl;
         os << "outer loop" << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z << endl;
         os << "vertex" << " " << x << " " << y + size << " " << z + size<< endl;
         os << "vertex" << " " << x + size << " " << y + size << " " << z + size << endl;
         os << "endloop" << endl;
-	
+	os << "endfacet" << '\n' << endl;	
     }
 
     ~Cube() {}
@@ -205,7 +205,6 @@ public:
             		shapes[i]->toSTL(os);
 		}
 		
-		os << '\n';
 		os << "endsolid shape" << endl;
         	os.close();
     	}   
@@ -229,47 +228,3 @@ int main() {
     return 0;
 }
 
-
-/*
-struct TestCase {
-    bool pass;
-    string description;
-};
-
-class UnitTest {
-public:
-    vector<TestCase> cases;
-    
-    void add(TestCase testCase) {
-        cases.push_back(testCase);
-    }
-
-    void run() {
-        for (int i = 0; i < cases.size(); i++) {
-            if (!cases[i].pass)
-                cout << cases[i].description << endl;
-        }
-    }
-};
-
-// test.cpp
-void testCubeToString() {
-    Cube cube(1, 2, 3, 4);
-    string expectedResult = "4";
-    
-    if (!(cube.toString() == expectedResult)) {
-        cout << cube.toString() << endl;
-        return false;
-    }
-    return true;
-}
-
-int main() {
-    testCubeToString();
-    
-    return 0;
-}
-
-// main.cpp
-//
-*/
