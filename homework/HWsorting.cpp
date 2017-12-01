@@ -30,7 +30,7 @@ public:
 };
 
 ostream& operator<<(ostream& os, const Elephant& e) {
-        cout << "name:" << e.name << " age:" << e.age << endl;
+        os << "name:" << e.name << " age:" << e.age << endl;
 	return os;
 }
 
