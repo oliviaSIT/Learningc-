@@ -1,16 +1,22 @@
 #include <iostream>
 
+using namespace std;
+
 class JulianDate {
 private:
 	double jd;
 	static JulianDate J2000;
 public:
-	JulianDate() {}
-	JulianDate(int year, int month, int day, int hour, int min, int sec) {
+	JulianDate() 
+	JulianDate(double year, double month, double day, double hour, double min, double sec) {
 		int NumOfLeap = 0;
-		for(int )
+		for(double i = J2000; i <= year; i++) {
+			if()
+		}
 		jd = 
 	}
+
+	double getJD() {return jd;}
 
 //	operator+
 //	operator-

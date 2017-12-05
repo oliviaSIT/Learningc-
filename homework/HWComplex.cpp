@@ -19,6 +19,6 @@ int main() {
 //	long double z = 1.000000000000000000009999999;
 	Complex<double> a(1.0,2.5);
 	Complex<float> b(1.0f, 2.5f);
-//	cout << a << b << endl;
+	cout << sizeof(a) << sizeof(b) << endl;
 	return 0;
 }
