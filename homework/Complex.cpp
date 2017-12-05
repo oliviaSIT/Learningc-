@@ -3,23 +3,25 @@
 
 using namespace std;
 
-template <typename Precision>
+int main() {
+    Complex<double> c(1.1, -2.1);
+//    cout << sizeof(c.abs()) << endl;
+    c.print();   
+ 
+    Complex<double> x(c);
+    cout << x << endl;
+    x.print();    
 
-Complex::Complex<Precision> Complex::operator-() { 
-                Complex::Complex<Precision> result;
-                result.r = r;
-                result.i = -1 * i;
-                return result;
-        }
+    Complex<double> r = -c; 
+    cout << r << endl;
+    r.print();  
+  
+   // r = c;
+   // cout << r << endl;
 
+    Complex<double> d;
+    d = c + x;
+    d.print();    
 
-ostream& operator<<(ostream& os, const Complex::Complex<Precision>& c) {
-	if(c,i >= 0) {
-		os << c.r << "+" << "i" << c.i << endl;
-	} else {
-		os << c.r << "-" << "i" << -1 * c.i << endl;
-	}
-
-	return os;
+    return 0;
 }
-
