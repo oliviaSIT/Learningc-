@@ -1,3 +1,4 @@
+//Jiabin.Li
 #include <iostream>
 #include <string>
 
@@ -5,10 +6,14 @@ using namespace std;
 
 template<typename T>
 
-//void print(const T& t) {
-//	cout << t << endl;
-//}
+void print(T t[], size_t n) {
+	for(size_t i = 0; i <= n; i++) {
+		cout << t[i] << " ";
+	}
+	cout << endl;
+}
 
+template<typename T>
 void bubbleSort(T x[], size_t n) {
 	T temp;
 	for(size_t i = 1; i < n; i++){
@@ -36,7 +41,7 @@ public:
 };
 
 ostream& operator<<(ostream& os, const Elephant& e) {
-        os << "name:" << e.name << " age:" << e.age << endl;
+        os << "name:" << e.name << " age:" << e.age << " ";
 	return os;
 }
 
@@ -45,25 +50,20 @@ bool operator>(const Elephant& e1, const Elephant& e2) {
 }
 
 int main() {
-	string y[] = {"i", "h", "he", "ha"};
-	bubbleSort(y, 4);	
+	int x[] = {1, 2, 3, 4, 5};
+	bubbleSort(x, 5);
+	print(x, 5); // prints same thing
+
+	int y[] = {6, 5, 4, 3, 2, 1};
+	bubbleSort(y, 6);
+	print(y, 6); // 1 2 3 4 5 6	
 
 //	Elephant a("a", 12);
 //	Elephant b("b", 2);
 //	Elephant x[] = {a, b};
 	Elephant e[] = { Elephant("Fred", 20), Elephant("Alice", 22), Elephant("George", 9)};
 	bubbleSort(e, 3);
-
-
-	for(int i = 0; i < sizeof(y) / sizeof(y[0]); i++){
-		cout << y[i] << " ";
-	}
-	cout << endl;
-
-	for(int i = 0; i < sizeof(e) / sizeof(e[0]); i++) {
-		cout << e[i];
-	}
-
+	print(e, 3);
 
 	
 	return 0;
