@@ -10,10 +10,13 @@ public:
 	JulianDate() 
 	JulianDate(double year, double month, double day, double hour, double min, double sec) {
 		int NumOfLeap = 0;
-		for(double i = J2000; i <= year; i++) {
-			if()
+		for(double i = 2000; i <= year; i++) {
+			if(i % 400 == 0)
+				NumOfLeap++;
+			else if(i % 100 != 0 && i % 4 == 0)
+				NumOfLeap++; 
 		}
-		jd = 
+		jd = 365 * (year - 2000) + month+ day - 1 + hour / 24 
 	}
 
 	double getJD() {return jd;}
